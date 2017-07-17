@@ -90,14 +90,12 @@ def depthFirstSearch(problem):
     "*** YOUR CODE HERE ***"
     frontier = deque()
     frontier.append((problem.getStartState(), []))  # initial state
-    #explored = set(problem.getStartState())
-    explored = [problem.getStartState()]
+    explored = set(problem.getStartState())
 
     while frontier:
         (node, path) = frontier.pop()
           
-        #explored.add(node)
-        explored.append(node)
+        explored.add(node)
         if problem.isGoalState(node):
             return path
         for state, action, cost in problem.getSuccessors(node):
@@ -106,15 +104,12 @@ def depthFirstSearch(problem):
                 frontier.append((state, newPath))
     return [] 
 
-#util.raiseNotDefined()
-
 def breadthFirstSearch(problem):
     """Search the shallowest nodes in the search tree first."""
     "*** YOUR CODE HERE ***"
     frontier = deque()
     frontier.append((problem.getStartState(), []))  # initial state
-    #explored = set(problem.getStartState())
-    explored = [problem.getStartState()]
+    explored = set(problem.getStartState())
     while frontier:
         (node, path) = frontier.popleft()
         if problem.isGoalState(node):
@@ -123,8 +118,7 @@ def breadthFirstSearch(problem):
             if state not in explored:
                 newPath = path + [action]
                 frontier.append((state, newPath))
-                #explored.add(state)
-                explored.append(state)
+                explored.add(state)
     return [] 
 
 import heapq
@@ -150,8 +144,6 @@ def uniformCostSearch(problem):
              explored[state] = new_cost
     return [] 
 
-#    util.raiseNotDefined()
-
 def nullHeuristic(state, problem=None):
     """
     A heuristic function estimates the cost from the current state to the nearest
@@ -173,13 +165,11 @@ def aStarSearch(problem, heuristic=nullHeuristic):
             return path
         for state, action, cur_cost in problem.getSuccessors(node):
              new_cost = explored[node] + cur_cost
-             if state in explored and explored[state] < new_cost:
+             if state in explored and explored[state] <= new_cost:
                  continue
              heapq.heappush(frontier, (new_cost + heuristic(state, problem), state, path + [action]))
              explored[state] = new_cost
     return [] 
-    #util.raiseNotDefined()
-
 
 # Abbreviations
 bfs = breadthFirstSearch
